@@ -111,7 +111,7 @@
         <div class="container-fluid">
             <p>Infelizmente na quarta questão não informa qual deve ser o tamanho do array e nem a forma de crescimento dos elementos que dele fazem parte. Deve ser discreto o crescimento ou pode ser de qualquer forma? Devido a essa dúvida e ao tamanho do array utilizado - questão 3 - o retorno é na maioria esmagadora das vezes 'false'.</p>
             <div id="quadro">
-                <form action="a.php" method="post">
+                <form action="desafio.php" method="post">
                     <div class="mb-3">
                         <input type="text" name="year" id="year" class="form-control">
                     </div>
@@ -123,7 +123,7 @@
                <h3>Século: <?=(isset($sec)) ? $sec : '' ;?></h3>
                <hr>
                <br><br>
-               <form action="a.php" method="post">
+               <form action="desafio.php" method="post">
                     <div class="mb-3">
                         <input type="number" name="number" id="number" class="form-control">
                     </div>
@@ -167,7 +167,7 @@
                 </form>
                 <hr>
                 <br><br>
-                <form action="a.php" method="post">
+                <form action="desafio.php" method="post">
                     <div class="mb-3">
                         <p><?= ($grow) ? 'True' : 'False' ;?></p>
                     </div>
