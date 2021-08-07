@@ -1,5 +1,8 @@
 <?php
-    if (isset($_POST['year'])) {
+
+use ClanCats\Hydrahon\Query\Sql\Exists;
+
+if (isset($_POST['year'])) {
         $year = filter_input(INPUT_POST, 'year', FILTER_SANITIZE_NUMBER_INT);
 
         function SeculoAno($year)
@@ -40,6 +43,7 @@
         };
     };
     $randon_numbers = [];
+    
     if (isset($_POST['val'])) {
         
 
@@ -66,16 +70,22 @@
         };
     };
 
-    //Utilizando o array gerado na função acima...
-    $randon2 = $randon_numbers;
-    asort($randon2);
-    $grow = '';
-    for ($i=0; $i < count($randon2); $i++) { 
-        if (count($randon2)) {
-            break;
-        };
-        if ($randon2[$i+1] > $randon2[$i]) {
-            $grow = true;
+    if ($_POST['grow_array'] != '') {
+        $array = explode(',',  $_POST['grow_array']);
+        asort($array);
+        $length = count($array);
+        $removed_item = rand(0, $length-1);
+        array_splice($array, $removed_item, 1);
+        $grow = false;
+        for ($i=0; $i < $length-1; $i++) {
+            if (isset($array[$i+1])) {
+               if ($array[$i+1] > $array[$i]) {
+                   $grow = true;
+               } else {
+                   break;
+                   $grow = false;
+               };
+            };
         };
     };
 ?>
@@ -109,7 +119,6 @@
     </head>
     <body>
         <div class="container-fluid">
-            <p>Infelizmente na quarta questão não informa qual deve ser o tamanho do array e nem a forma de crescimento dos elementos que dele fazem parte. Deve ser discreto o crescimento ou pode ser de qualquer forma? Devido a essa dúvida e ao tamanho do array utilizado - questão 3 - o retorno é na maioria esmagadora das vezes 'false'.</p>
             <div id="quadro">
                 <form action="desafio.php" method="post">
                     <div class="mb-3">
@@ -167,9 +176,21 @@
                 </form>
                 <hr>
                 <br><br>
+                <div class="mb-3">
+                    <p>Abaixo, digite um número que será adicionado ao array no campo inferior.</p>
+                </div>
                 <form action="desafio.php" method="post">
                     <div class="mb-3">
-                        <p><?= ($grow) ? 'True' : 'False' ;?></p>
+                        <label for="grow_number" class="form-label">Digite um número:</label>
+                        <input type="number" name="grow_number" id="grow_number" class="form-control">
+                        <button type="button" class="btn btn-primary" id="add">Adicionar</button>
+                    </div>
+                    <div class="mb-3">
+                        <label for="grow_array" class="form-label">Seu array:</label>
+                        <input type="text" name="grow_array" id="grow_array" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <p id="response"><?= ($grow) ? 'True' : 'False' ;?></p>
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary">Crescente?</button>
@@ -182,6 +203,15 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/ec29234e56.js" crossorigin="anonymous"></script>
         <script>
+            $('#add').on('click', () =>{
+                let added_number = $('#grow_number').val();
+                let myarray = $('#grow_array').val();
+                if (myarray != '') {
+                    $('#grow_array').val($('#grow_array').val() + ', ' + added_number);
+                } else {
+                    $('#grow_array').val(added_number);
+                };
+            });
             
         </script>
     </body>
