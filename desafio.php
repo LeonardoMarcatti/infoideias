@@ -76,17 +76,18 @@ if (isset($_POST['year'])) {
         $length = count($array);
         $removed_item = rand(0, $length-1);
         array_splice($array, $removed_item, 1);
-        $grow = false;
+        $grow = 'False';
         for ($i=0; $i < $length-1; $i++) {
             if (isset($array[$i+1])) {
                if ($array[$i+1] > $array[$i]) {
-                   $grow = true;
+                   $grow = 'True';
                } else {
-                   break;
-                   $grow = false;
+                    $grow = 'False';
+                   break;                   
                };
             };
         };
+        unset($_POST['grow_array']);
     };
 ?>
 
@@ -190,11 +191,25 @@ if (isset($_POST['year'])) {
                         <input type="text" name="grow_array" id="grow_array" class="form-control" readonly>
                     </div>
                     <div class="mb-3">
-                        <p id="response"><?= ($grow) ? 'True' : 'False' ;?></p>
+                        <p id="response"><?= (isset($grow)) ? $grow : '' ;?></p>
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary">Crescente?</button>
-                    </div>                        
+                    </div>
+                    <?php
+                        if (isset($array)) {
+                            echo 'Seu array é: [';
+                            for ($i=0; $i < count($array); $i++) {
+                                if ($i == (count($array)-1)) {
+                                    echo $array[$i] . ']';
+                                } else {
+                                    echo $array[$i] . ', ';
+                                };
+                            };
+                        };
+
+                        unset($grow, $array);
+                    ?>             
                 </form>
             </div>
         </div>
